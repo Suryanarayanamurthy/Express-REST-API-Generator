@@ -1,12 +1,26 @@
-version: '3.4'
+version: '3'
 services:
 
+    # MySQL
+    mysqldb:
+        image: mysql:5.7.26
+        restart: always
+        environment:
+            - MYSQL_ROOT_PASSWORD=command
+        volumes:
+            - mysql:/var/lib/mysql
+        ports:
+            - "3307:3306"
+        restart: always
+            
     # The Application
     api:
-        image: template-api:latest
+        build:
+            context: ./
+            dockerfile: ./Dockerfile
         ports:
-            - 8082:8080
-        depends_on:
+            - 8080:8080
+        links:
             - redis
             - mongo
             - mysqldb
@@ -18,11 +32,14 @@ services:
             - SQL_PASSWORD=command
             - SQL_DATABASE=giro
             - SQL_HOST=mysqldb
+        restart: always
 
     # The Web Server
     clock:
-        image: template-clock:latest
-        depends_on:
+        build:
+            context: ./
+            dockerfile: ./clock/Dockerfile
+        links:
             - redis
             - mongo
             - mysqldb
@@ -34,11 +51,14 @@ services:
             - SQL_PASSWORD=command
             - SQL_DATABASE=giro
             - SQL_HOST=mysqldb
+        restart: always
 
     # The Worker
     worker:
-        image: template-worker:latest
-        depends_on:
+        build:
+            context: ./
+            dockerfile: ./workers/Dockerfile
+        links:
             - redis
             - mongo
             - mysqldb
@@ -50,26 +70,41 @@ services:
             - SQL_PASSWORD=command
             - SQL_DATABASE=giro
             - SQL_HOST=mysqldb
+        restart: always
+    
+    # Php MyAdmin
+    mysqladmin:
+        image: phpmyadmin/phpmyadmin
+        environment:
+            - PMA_HOST=mysqldb
+        restart: always
+        links:
+            - "mysqldb"
+        ports:
+            - "8000:80"
             
     # MongoDB Admin
     mongoadmin:
         image: mongo-express
-        depends_on:
+        links:
             - mongo
         environment:
             - ME_CONFIG_MONGODB_SERVER=mongo
-        depends_on:
+        restart: always
+        links:
             - "mysqldb"
         ports:
-            - "8083:8081"
+            - "80:8081"
 
     # Redis
     redis:
         image: redis
+        restart: always
 
     # Mongo
     mongo:
         image: mongo:3.6
+        restart: always
         
 volumes:
     mysql:
