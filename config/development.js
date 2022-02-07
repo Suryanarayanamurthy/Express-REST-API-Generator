@@ -24,13 +24,6 @@ module.exports = {
     queueUIPort: process.env.QUEUE_UI_PORT || 3000,
     enforceUserIdAppIdDeveloperId: process.env.ENFORCE_USER_ID_APP_ID_DEVELOPER_ID || 'no',
     apiDBKey: process.env.API_DB_Key || 'MDg4NWM1NTA0ZTZlNTQ5MjAzNzA1ODBlOWVkNzI3MzdlNmYxZTcyMjVkOTA3N2JjYTBhZjA0YmM0N2U4NDZkNi8vLy8vLzQ1MDY=',
-    SQLUsername: process.env.SQL_USERNAME || 'root',
-    SQLPassword: process.env.SQL_PASSWORD || null,
-    SQLDatabase: process.env.SQL_DATABASE || 'snipe',
-    SQLHost: process.env.SQL_HOST || '127.0.0.1',
-    SQLPort: process.env.SQL_PORT || 3306,
-    SQLDriver: process.env.SQL_DRIVER || 'mysql', //'mysql'|'sqlite'|'postgres'|'mssql'
-    SQLTimezone: process.env.SQL_TIMEZONE || '+01:00',
     clockTimezone: process.env.CLOCK_TIMEZONE || 'Africa/Lagos',
     workerConcurrency: process.env.WORKER_CONCURRENCY || '1',
     logglyToken: process.env.LOGGLY_TOKEN || false,
