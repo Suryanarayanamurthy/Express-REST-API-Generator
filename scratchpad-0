@@ -1,0 +1,7 @@
+docker network create --driver overlay --internal i0
+docker network create --driver overlay e0
+----
+before npm audit fix
+74 vulnerabilities (1 low, 31 moderate, 34 high, 8 critical)
+after npm audit fix
+49 vulnerabilities (1 low, 20 moderate, 26 high, 2 critical)
